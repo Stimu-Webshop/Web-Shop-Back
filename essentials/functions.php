@@ -20,3 +20,17 @@ function returnError(PDOException $pdoex): void {
   echo json_encode($error);
   exit;
  }
+
+ function selectAsJson(object $db,string $sql): void {
+  $query = $db->query($sql);
+  $results = $query->fetchAll(PDO::FETCH_ASSOC);
+  header('HTTP/1.1 200 OK');
+  echo json_encode($results);
+}
+
+function selectRowAsJson(object $db,string $sql): void {
+  $query = $db->query($sql);
+  $results = $query->fetch(PDO::FETCH_ASSOC);
+  header('HTTP/1.1 200 OK');
+  echo json_encode($results);
+}
