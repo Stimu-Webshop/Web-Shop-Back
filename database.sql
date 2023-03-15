@@ -1,8 +1,8 @@
-drop database if exists stimu;
+-- drop database if exists stimu;
 
-create database stimu;
+-- create database stimu;
 
-use stimu;
+-- use stimu;
 
 
 create table product_category (
