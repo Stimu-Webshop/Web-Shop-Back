@@ -3,7 +3,7 @@
     require_once '../essentials/headers.php';
 
 // Tää ei vittu toimi (17.3 17:04) katotaa myöhemmi jos korjais, varmaa eri versioki vielä pilvessä - samppa
-
+// Se ei toimi ku meiän tietokanta on PDO eikä mysqli t. Sepi ja Tommi
 
 // Retrieve the search term from the React frontend
 $searchTerm = $_POST['searchTerm'];
