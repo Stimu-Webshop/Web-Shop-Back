@@ -1,38 +1,38 @@
-<!-- Tommin testi versio -->
 <?php
-    require_once '../essentials/functions.php';
-    require_once '../essentials/headers.php';
+
 // Replace the database credentials with your own
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "database_name";
 
-// Create connection
-// Create a MySQL database connection
-$db = openDb();
+try {
+  // Create connection
+  $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+  // set the PDO error mode to exception
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Check connection
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
+  // Escape special characters in the search query to prevent SQL injection attacks
+  $search_query = $conn->quote('%' . $_GET['q'] . '%');
+
+  // Query to retrieve data from the database based on the search query
+  $sql = "SELECT * FROM products WHERE name LIKE $search_query";
+
+  // Prepare the statement
+  $stmt = $conn->prepare($sql);
+
+  // Execute the statement
+  $stmt->execute();
+
+  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  // Send the results as JSON
+  header('Content-Type: application/json');
+  echo json_encode($rows);
+
+} catch(PDOException $e) {
+  echo "Connection failed: " . $e->getMessage();
 }
 
-// Escape special characters in the search query to prevent SQL injection attacks
-$search_query = mysqli_real_escape_string($db, $_POST['q']);
-
-// Query to retrieve data from the database based on the search query
-$sql = "SELECT * FROM product WHERE name LIKE '%$search_query%'";
-
-$result = mysqli_query($db, $sql);
-
-if (mysqli_num_rows($result) > 0) {
-    // Convert the result set into an array of associative arrays
-    $rows = array();
-    while($row = mysqli_fetch_assoc($result)) {
-        $rows[] = $row;
-    }
-    // Send the results as JSON
-    header('Content-Type: application/json');
-    echo json_encode($rows);
-} else {
-    echo "0 results";
-}
-
-mysqli_close($db);
-
+$conn = null;
+?>
