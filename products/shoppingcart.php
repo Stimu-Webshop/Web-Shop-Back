@@ -20,3 +20,6 @@ foreach ($cartData as $item) {
 
 // Close the database connection
 $pdo = null;
+
+// TEHTÄVIÄ MUUTOKSIA MUISTIINPANOT
+// Poista shopping session taulu, lisää userid ja total shoppingcart ta3uluun
