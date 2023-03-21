@@ -13,7 +13,7 @@ try {
   $id = (int)$_GET['id'];
 
   // Query to retrieve data from the database based on the search query
-  $sql = "SELECT * FROM product WHERE id = :id";
+  $sql = "SELECT * FROM product WHERE id = $id";
 
   // Prepare the statement
   $stmt = $conn->prepare($sql);
