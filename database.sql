@@ -27,9 +27,10 @@ create table product (
     price decimal(10,2) not null,
     category_id int not null,
     inventory_id int not null,
+    rating FLOAT(1) CHECK (rating >= 0 AND rating <= 5),
+    review_text VARCHAR(255),
     FOREIGN KEY (category_id) REFERENCES product_category(id),
     FOREIGN KEY (inventory_id) REFERENCES product_inventory(id)
-
 );
 
 create table user (
@@ -45,21 +46,22 @@ create table user (
     postal_code varchar(255) not null,
     country varchar(255) not null
 );
-
-create table shopping_session (
-    id int primary key auto_increment,
-    user_id int not null,
-    total decimal(10,2) not null,
-    FOREIGN KEY (user_id) REFERENCES user(id)
-);
+-- DEPRICATED, DATA NECCESSARY DATA TRANSFERED TO shopping_cart
+-- create table shopping_session (
+--     id int primary key auto_increment,
+--     user_id int not null,
+--     total decimal(10,2) not null,
+--     FOREIGN KEY (user_id) REFERENCES user(id)
+-- );
 
 create table shopping_cart (
     id int primary key auto_increment,
-    session_id int not null,
+    user_id int not null,
     product_id int  not null,
     quantity int not null,
-    FOREIGN KEY (session_id) REFERENCES shopping_session(id),
-    FOREIGN KEY (product_id) REFERENCES product(id)
+    total decimal(10,2) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) on delete CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) on delete CASCADE
 );
 
 
@@ -84,6 +86,14 @@ create table admin_user (
     FOREIGN KEY (type_id) REFERENCES admin_type(id)
 );
 
-
+create table contact_form (
+    id int primary key AUTO_INCREMENT,
+    first_name varchar(255) not null,
+    last_name varchar(255) not null,    
+    email VARCHAR(255) not null,
+    address VARCHAR(255) not null,
+    phone VARCHAR(255) not null, 
+    message varchar(255), not null
+)
 
 
