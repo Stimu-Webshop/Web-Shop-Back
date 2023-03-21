@@ -46,21 +46,22 @@ create table user (
     postal_code varchar(255) not null,
     country varchar(255) not null
 );
-
-create table shopping_session (
-    id int primary key auto_increment,
-    user_id int not null,
-    total decimal(10,2) not null,
-    FOREIGN KEY (user_id) REFERENCES user(id)
-);
+-- DEPRICATED, DATA NECCESSARY DATA TRANSFERED TO shopping_cart
+-- create table shopping_session (
+--     id int primary key auto_increment,
+--     user_id int not null,
+--     total decimal(10,2) not null,
+--     FOREIGN KEY (user_id) REFERENCES user(id)
+-- );
 
 create table shopping_cart (
     id int primary key auto_increment,
-    session_id int not null,
+    user_id int not null,
     product_id int  not null,
     quantity int not null,
-    FOREIGN KEY (session_id) REFERENCES shopping_session(id),
-    FOREIGN KEY (product_id) REFERENCES product(id)
+    total decimal(10,2) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES product(id) on delete CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) on delete CASCADE
 );
 
 
