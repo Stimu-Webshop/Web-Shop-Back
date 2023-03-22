@@ -7,7 +7,7 @@ $cartData = json_decode(file_get_contents('php://input'), true);
 $pdo = openDb();
 
 // Prepare the SQL query to insert the shopping cart data into the database
-$stmt = $pdo->prepare("INSERT INTO shopping_cart (id, user_id, product_id, quantity, total) VALUES (:id, :user_id, :product_id, :quantity, :total)");
+$stmt = $pdo->prepare("INSERT INTO shopping_cart (user_id, product_id, quantity, total) VALUES (:user_id, :product_id, :quantity, :total)");
 
 // Iterate over the shopping cart items and execute the SQL query for each item
 foreach ($cartData as $item) {
@@ -15,7 +15,6 @@ foreach ($cartData as $item) {
         'user_id' => $item['user_id'],
         'product_id' => $item['id'],
         'quantity' => $item['quantity'],
-        'id' => 1,
         'total' => $item['total']
     ]);
 }
