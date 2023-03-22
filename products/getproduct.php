@@ -6,7 +6,7 @@
 
     try {
         $db = openDb();
-        selectAsJson($db, 'select * from product where category_id  = 2');
+        selectAsJson($db, 'select * from product');
     } catch (PDOException $pdoex) {
         returnError($pdoex);
     }
