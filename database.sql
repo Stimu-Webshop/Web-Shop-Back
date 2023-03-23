@@ -54,6 +54,14 @@ create table user (
 --     FOREIGN KEY (user_id) REFERENCES user(id)
 -- );
 
+CREATE TABLE product_review (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT NOT NULL,
+    rating TINYINT UNSIGNED CHECK (rating >=0 AND rating <=5),
+    review_text VARCHAR(255),
+    FOREIGN KEY (product_id) REFERENCES product (ID) ON DELETE CASCADE
+);
+
 create table shopping_cart (
     id int primary key auto_increment,
     user_id int not null,
