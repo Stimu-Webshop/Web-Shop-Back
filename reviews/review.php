@@ -3,43 +3,37 @@
 require_once '../essentials/functions.php';
 require_once '../essentials/headers.php';
 
-try {
-    // Create connection
-    $conn = openDb();
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  
-    // Escape special characters in the search query to prevent SQL injection attacks
-    if (isset($_GET['id'])) {
-      $id = $conn->quote($_GET['id']);
-    } else {
-      $id = 1;
-    }
-    if (isset($_GET['comment'])) {
-      $comment = $conn->quote($_GET['comment']);
-    } else {
-      $comment = 'No comment';
-    }
-    // $rating = $conn->quote($_GET['rating']);
-  
-    // Query to retrieve data from the database based on the search query
-    $sql = "INSERT INTO product_review VALUES ( NULL, $id, 5, $comment)";
-  
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-  
-    // Execute the statement
-    $stmt->execute();
-  
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  
-    // Send the results as JSON
-    header('Content-Type: application/json');
-    echo json_encode($rows);
-  
-  } catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-  }
-  
-  $conn = null;
-  ?>
+
+// Retrieve the ID and comment data from the request body
+$request_body = file_get_contents('php://input');
+$data = json_decode($request_body, true);
+
+if (!isset($data['id']) || !isset($data['comment'])) {
+    // Return an error response if the required data is missing
+    http_response_code(400);
+    $response = array('status' => 'error', 'message' => 'Missing required data');
+    echo json_encode($response);
+    exit();
+}
+
+$id = $data['id'];
+$comment = $data['comment'];
+
+// Process the data as needed (e.g. storing it in a database)
+
+// Open the database connection
+$pdo = openDb();
+
+// Prepare the SQL query to insert the review data into the database
+$stmt = $pdo->prepare("INSERT INTO product_review (product_id, rating, review_text) VALUES (:product_id, 5, :comment)");
+
+// Execute the SQL query
+$stmt->execute([
+    'product_id' => $id,
+    'comment' => $comment
+]);
+
+// Send a response to the client
+$response = array('status' => 'success');
+echo json_encode($response);
+
