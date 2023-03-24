@@ -18,6 +18,7 @@ if (!isset($data['id']) || !isset($data['comment'])) {
 
 $id = $data['id'];
 $comment = $data['comment'];
+$name = $data['name'];
 
 // Process the data as needed (e.g. storing it in a database)
 
@@ -25,12 +26,13 @@ $comment = $data['comment'];
 $pdo = openDb();
 
 // Prepare the SQL query to insert the review data into the database
-$stmt = $pdo->prepare("INSERT INTO product_review (product_id, rating, review_text) VALUES (:product_id, 5, :comment)");
+$stmt = $pdo->prepare("INSERT INTO product_review (product_id, rating, review_text, review_name) VALUES (:product_id, 5, :comment, :name)");
 
 // Execute the SQL query
 $stmt->execute([
     'product_id' => $id,
-    'comment' => $comment
+    'comment' => $comment,
+    'name' => $name
 ]);
 
 // Send a response to the client
