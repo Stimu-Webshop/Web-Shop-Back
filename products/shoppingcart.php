@@ -1,5 +1,8 @@
 <?php
 
+require_once '../essentials/functions.php';
+require_once '../essentials/headers.php';
+
 // Assuming the shopping cart array is sent in the request body as JSON data
 $cartData = json_decode(file_get_contents('php://input'), true);
 
