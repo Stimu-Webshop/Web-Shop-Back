@@ -47,9 +47,7 @@ if (!$user) {
 if (!password_verify($password, $user['password'])) {
   http_response_code(401);
   echo json_encode(array('error' => 'Invalid username or password.'));
-echo 'osuu tähän';
   exit;
 }
 
 // User is authorized
-echo json_encode(array('message' => 'User is authorized.'));
