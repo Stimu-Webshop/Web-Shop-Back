@@ -51,3 +51,4 @@ if (!password_verify($password, $user['password'])) {
 }
 
 // User is authorized
+echo json_encode(array('userId' => $user['id']));
