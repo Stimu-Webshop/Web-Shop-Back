@@ -36,13 +36,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Error: Username already exists.";
     exit();
   }
-  
+
+  // Hash the password
+  $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+
+
   // Insert the form data into the database
   try {
     $stmtt = $conn->prepare("INSERT INTO user (username, password, first_name, last_name, email, telephone, address, city, postal_code, country) VALUES (:username, :password, :firstName, :lastName, :email, :telephone, :address, :city, :postalCode, :country)");
     $stmtt->execute([
       'username' => $username,
-      'password' => $password,
+      'password' => $hashedPassword,
       'firstName' => $firstName,
       'lastName' => $lastName,
       'email' => $email,
