@@ -20,9 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
   } 
 
 // Get the user ID from the query string
-$userId = $_GET['userId'];
-$userIdNum = $userId['userId'];
-var_dump($userIdNum);
+$data = json_decode($_GET['userId'], true);
+$userId = $data['userId'];
 
 // Prepare the SQL statement
 $stmt = $conn->prepare('SELECT username FROM user WHERE id = :userId');
@@ -32,8 +31,7 @@ $stmt->execute();
 // Fetch the user from the database
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-var_dump($user);
 // Return the user as JSON
-echo json_encode($user);
+echo json_encode($user);;
 
 
