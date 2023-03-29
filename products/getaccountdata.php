@@ -24,7 +24,7 @@ $data = json_decode($_GET['userId'], true);
 $userId = $data['userId'];
 
 // Prepare the SQL statement
-$stmt = $conn->prepare('SELECT username FROM user WHERE id = :userId');
+$stmt = $conn->prepare('SELECT username, first_name, last_name, email, telephone, address, city, postal_code, country FROM user WHERE id = :userId');
 $stmt->bindParam(':userId', $userId);
 $stmt->execute();
 
