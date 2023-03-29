@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 // Get the user ID from the query string
 $userId = $_GET['userId'];
+$userIdNum = $userId['userId'];
+var_dump($userIdNum);
 
 // Prepare the SQL statement
 $stmt = $conn->prepare('SELECT username FROM user WHERE id = :userId');
