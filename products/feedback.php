@@ -13,11 +13,9 @@ if (isset($_POST['submit'])) {
     $dsn = openDb();
 
     try {
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         $query = "INSERT INTO contact_form (first_name, last_name, email, address, phone, message) VALUES (:first_name, :last_name, :email, :address, :phone, :message)";
 
-        $stmt = $db->prepare($query);
+        $stmt = $dsn->prepare($query);
 
         $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
         $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
