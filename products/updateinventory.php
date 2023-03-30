@@ -1,6 +1,4 @@
 <?php
-//Tää on vielä kesken, mut saattaa toimia, kun vaihdetaan tauluista otsikot
-
 require_once '../essentials/functions.php';
 require_once '../essentials/headers.php';
 
@@ -10,10 +8,12 @@ $order = json_decode(file_get_contents('php://input'), true);
 // Update the inventory quantity in the database
 $pdo = openDb();
 
-$stmt = $pdo->prepare('UPDATE product SET inventory_quantity = inventory_quantity - :quantity WHERE id = :id');
+$stmt = $pdo->prepare('UPDATE product
+                       JOIN shopping_cart ON shopping_cart.product_id = product.id
+                       SET product.inventory = product.inventory - shopping_cart.quantity
+                       WHERE shopping_cart.user_id = :user_id');
 $stmt->execute([
-  ':id' => $order['productId'],
-  ':quantity' => $order['quantity']
+  ':user_id' => $order['user_id'],
 ]);
 
 // Send a response indicating success
