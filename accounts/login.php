@@ -30,6 +30,22 @@ if (!isset($username) || !isset($password)) {
   exit;
 }
 
+$admn = $conn->prepare("SELECT * FROM admin_user WHERE username = :username");
+$admn->bindParam(':username', $username);
+$admn->execute();
+$admn_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($admn_user === true) {
+    if (!password_verify($password, $admn_user['password'])) {
+      http_response_code(401);
+      echo json_encode(array('error' => 'Invalid username or password.'));
+      exit;
+    } else {
+    echo json_encode(array('adminId' => $admn_user['id'], 'adminValue' => true));
+    exit;
+    }
+  }
+
 // Prepare the SQL query to get the user data based on the username
 $stmt = $conn->prepare("SELECT * FROM user WHERE username = :username");
 $stmt->bindParam(':username', $username);
