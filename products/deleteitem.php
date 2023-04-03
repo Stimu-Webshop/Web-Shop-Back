@@ -5,7 +5,7 @@ require_once '../essentials/functions.php';
 require_once '../essentials/headers.php';
 
 $deleteData = json_decode(file_get_contents('php://input'), true); //
-
+var_dump($deleteData);
 //open connection
 $pdo = openDb();
 
@@ -14,12 +14,13 @@ try {
     $pdo->beginTransaction();
     
 //SQL for deleting item from shopping cart
-    $stmt = $pdo->prepare("DELETE FROM shopping_cart WHERE user_id = :user_id AND product_id = :product_id");
+    $stmt = $pdo->prepare("DELETE FROM shopping_cart WHERE user_id = :user_id AND product_id = :product_id AND quantity = :quantity");
 
     // Execute the SQL query to delete the item from the shopping cart for the current user
     $stmt->execute([
         'user_id' => $deleteData['user_id'],
-        'product_id' => $deleteData['product_id']
+        'product_id' => $deleteData['product_id'],
+        'quantity' => $deleteData['quantity']
     ]);
         // Commit the transaction
         $pdo->commit();
