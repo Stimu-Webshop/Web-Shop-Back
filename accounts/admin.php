@@ -6,14 +6,16 @@ $conn = openDb();
 
 try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $orderData = json_decode(file_get_contents('php://input'), true);
 
-    $id = $_POST["id"];
-    $name = $_POST["name"];
-    $description = $_POST["description"];
-    $price = $_POST["price"];
-    $image = $_POST["image"];
-    $category = $_POST["category"];
-    $inventory = $_POST["inventory"];
+
+    $id = $orderData["id"];
+    $name =  $orderData["name"];
+    $description =  $orderData["description"];
+    $price =  $orderData["price"];
+    $image =  $orderData["image"];
+    $category =  $orderData["category"];
+    $inventory =  $orderData["inventory"];
 
     $stmt = $conn->prepare("UPDATE product SET name=:name, description=:description, price=:price, img=:image, category_id=:category,inventory=:inventory WHERE id=:id");
     $stmt->bindParam(':id', $id);
@@ -26,19 +28,22 @@ try {
 
     $stmt->execute();
     echo "Product updated successfully!";
+    return;
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 /* --------------------------------- */
 try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $orderData = json_decode(file_get_contents('php://input'), true);
 
-    $name = $_POST["name"];
-    $description = $_POST["description"];
-    $price = $_POST["price"];
-    $image = $_POST["image"];
-    $category = $_POST["category"];
-    $inventory = $_POST["inventory"];
+ 
+    $name =  $orderData["name"];
+    $description =  $orderData["description"];
+    $price =  $orderData["price"];
+    $image =  $orderData["image"];
+    $category =  $orderData["category"];
+    $inventory =  $orderData["inventory"];
 
     $stmt = $conn->prepare("INSERT INTO product (name, description, price, img, category_id, inventory) VALUES (:name, :description, :price, :image, :category, :inventory)");
     $stmt->bindParam(':name', $name);
@@ -50,14 +55,16 @@ try {
 
     $stmt->execute();
     echo "Product added successfully!";
+    return;
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 /* ----------------------------------- */
 try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $orderData = json_decode(file_get_contents('php://input'), true);
 
-    $id = $_POST["id"];
+    $id = $orderData["id"];
 
     $stmt = $conn->prepare("DELETE FROM product WHERE id=:id");
     $stmt->bindParam(':id', $id);
