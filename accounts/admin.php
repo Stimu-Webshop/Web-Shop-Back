@@ -14,9 +14,8 @@ try {
     $image = $_POST["image"];
     $category = $_POST["category"];
     $inventory = $_POST["inventory"];
-    $is_featured = $_POST["is_featured"];
 
-    $stmt = $conn->prepare("UPDATE product SET name=:name, description=:description, price=:price, img=:image, category_id=:category,inventory=:inventory, is_featured=:is_featured WHERE id=:id");
+    $stmt = $conn->prepare("UPDATE product SET name=:name, description=:description, price=:price, img=:image, category_id=:category,inventory=:inventory WHERE id=:id");
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':description', $description);
@@ -24,7 +23,6 @@ try {
     $stmt->bindParam(':image', $image);
     $stmt->bindParam(':category', $category);
     $stmt->bindParam(':inventory', $inventory);
-    $stmt->bindParam(':is_featured', $is_featured);
 
     $stmt->execute();
     echo "Product updated successfully!";
@@ -41,16 +39,14 @@ try {
     $image = $_POST["image"];
     $category = $_POST["category"];
     $inventory = $_POST["inventory"];
-    $is_featured = $_POST["is_featured"];
 
-    $stmt = $conn->prepare("INSERT INTO product (name, description, price, img, category_id, inventory, is_featured) VALUES (:name, :description, :price, :image, :category, :inventory, :is_featured)");
+    $stmt = $conn->prepare("INSERT INTO product (name, description, price, img, category_id, inventory) VALUES (:name, :description, :price, :image, :category, :inventory)");
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':price', $price);
     $stmt->bindParam(':image', $image);
     $stmt->bindParam(':category', $category);
     $stmt->bindParam(':inventory', $inventory);
-    $stmt->bindParam(':is_featured', $is_featured);
 
     $stmt->execute();
     echo "Product added successfully!";
