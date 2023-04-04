@@ -8,7 +8,7 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $orderData = json_decode(file_get_contents('php://input'), true);
 
- 
+    $id = $orderData["id"];
     $name =  $orderData["name"];
     $description =  $orderData["description"];
     $price =  $orderData["price"];
@@ -16,7 +16,8 @@ try {
     $category =  $orderData["category"];
     $inventory =  $orderData["inventory"];
 
-    $stmt = $conn->prepare("INSERT INTO product (name, description, price, img, category_id, inventory) VALUES (:name, :description, :price, :image, :category, :inventory)");
+    $stmt = $conn->prepare("INSERT INTO product (id, name, description, price, img, category_id, inventory) VALUES (:id, :name, :description, :price, :image, :category, :inventory)");
+    $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':price', $price);
