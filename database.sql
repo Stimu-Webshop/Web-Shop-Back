@@ -104,6 +104,17 @@ create table contact_form (
     message varchar(255), not null
 )
 
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_number INT,
+    order_date DATE,
+    user_id INT NOT NULL,
+    ordered_product_id INT NOT NULL,
+    product_quantity INT NOT NULL,
+    delivered TINYINT(1) NOT NULL DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (ordered_product_id) REFERENCES product(id) ON DELETE CASCADE
+)
 
 TUOTELUOKKIEN LUONTILAUSEET
 
