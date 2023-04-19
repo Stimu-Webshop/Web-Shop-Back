@@ -101,13 +101,13 @@ create table contact_form (
     email VARCHAR(255) not null,
     address VARCHAR(255) not null,
     phone VARCHAR(255) not null, 
-    message varchar(255), not null
+    message LONGTEXT, not null,
+    currentdate TIMESTAMP
 )
 
 CREATE TABLE orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
-    order_number INT,
-    order_date DATE,
+    order_date DATEtime,
     user_id INT NOT NULL,
     ordered_product_id INT NOT NULL,
     product_quantity INT NOT NULL,
