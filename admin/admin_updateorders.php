@@ -17,10 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("Connection failed: " . $e-> getMessage());
   }
 
-$orderData = json_decode(file_get_contents('php://input'), true);
-$id = $orderData;
-var_dump($id);
-    $stmt = $conn->prepare("UPDATE orders SET delivered = 1 WHERE row_id = $id");
+    $orderData = json_decode(file_get_contents('php://input'), true);
+     $ids = implode(',', $orderData);
+
+    $stmt = $conn->prepare("UPDATE orders SET delivered = 1 WHERE row_id IN ($ids)");
+    
 
 if (!$stmt) {
     error_log("Error preparing SQL statement: " . $conn->error);
